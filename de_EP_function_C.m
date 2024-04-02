@@ -1,11 +1,10 @@
 function [de_EP]=de_EP_function_C(N,M,nTx,C,M_mod,H_c,Y_c,rou,Tmax,lenC)
-%% Expectation Propagation algo
 % Initialization
 pc = ones(M*N*nTx,1);
 p=1;
 m2l = zeros(M*N*nTx,1);
 v2l = diag(p*pc);
-Th=1;
+Th=1; %Can be changed
 H=[];Y=[];
 for c=1:1:length(H_c)
     H=[H;H_c{1,c}];
@@ -16,14 +15,9 @@ Eq_record=[];
 B_record=[];
 B=norm(Y-H*mq,'fro');
 Eq_record=[Eq_record;mq];
-
 B_record=[B_record,B];
 
-
-% Compute ratio distribution
 for niter=1:1:Tmax
-
-        % Ratio Distribution Computation
         va_ext_temp=0;
         xa_ext_temp=0;
         va_ext_l=[];
@@ -74,7 +68,6 @@ for niter=1:1:Tmax
                 Eq_all1=Eq_all;
             end
 
-
             % Threshold
              B=norm(Y-H*(Eq_all).','fro');
              B_temp=norm(Y-H*(Eq_all).','fro');
@@ -97,7 +90,7 @@ for niter=1:1:Tmax
             %     B=B_temp;
             % end
 
-        % Moment Matching: Update parameters for next iteration
+        % Moment Matching
           v2_l=cell(1,C);
           m2_l=[];
 
